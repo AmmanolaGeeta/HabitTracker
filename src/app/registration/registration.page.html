@@ -1,0 +1,84 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">registration</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content> -->
+<ion-content class="ion-margin">
+
+  <h2 class="ion-text-center">Registration </h2>
+  <ion-grid class="ion-margin">
+    <ion-row>
+      <ion-col size-md="4" offset-md="4" size-lg="4" offset-lg="4">
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+          <ion-item>
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-input formControlName="name" placeholder="Name"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid">
+            Name is required and must be at least 2 characters long.
+          </ion-note>
+
+          <ion-item>
+            <ion-icon name="calendar" slot="start"></ion-icon>
+            <ion-input type="date" formControlName="dob" placeholder="Date of Birth"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="registerForm.get('dob')?.touched && registerForm.get('dob')?.invalid">
+            Date of Birth is required.
+          </ion-note>
+
+          <ion-item>
+            <ion-icon name="call" slot="start"></ion-icon>
+            <ion-input formControlName="mobile" placeholder="Mobile Number"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="registerForm.get('mobile')?.touched && registerForm.get('mobile')?.invalid">
+            Please enter a valid 10-digit mobile number.
+          </ion-note>
+
+          <ion-item>
+            <ion-icon name="mail" slot="start"></ion-icon>
+            <ion-input formControlName="email" type="email" placeholder="Email"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+            Please enter a valid email address.
+          </ion-note>
+
+          <ion-item>
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+
+            <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+            Password is required and must be at least 6 characters long.
+          </ion-note>
+
+          <ion-item>
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <ion-input formControlName="reEnterPassword" type="password" placeholder="Re-enter Password"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="registerForm.errors?.['mismatch']">
+            Passwords do not match.
+          </ion-note>
+
+
+          <ion-toast [isOpen]="isToastOpen" message={{registrationInfo}} [duration]="5000"
+            (didDismiss)="setOpen(false,registrationInfo)"></ion-toast>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" type="submit" [disabled]="!registerForm.valid" (click)="register()">Submit</ion-button>
+</ion-footer>

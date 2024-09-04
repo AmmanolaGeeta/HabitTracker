@@ -1,0 +1,102 @@
+<!-- <ion-content>
+  <div class="login-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="4" offset-md="4" size-lg="4" offset-lg="4">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Login</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-icon name="person" slot="start"></ion-icon>
+                <ion-input type="email" placeholder="Email" [(ngModel)]="email"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="lock" slot="start"></ion-icon>
+                <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+              </ion-item>
+              <ion-button expand="block" (click)="login()">Login</ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content> -->
+
+
+
+<ion-content>
+  <div class="login-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="4" offset-md="4" size-lg="4" offset-lg="4">
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title class="ion-text-center">Login</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-icon name="person" slot="start"></ion-icon>
+                <ion-input type="email" placeholder="Email" [(ngModel)]="email" formControlName="email" ></ion-input>
+              </ion-item>
+              <ion-note *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+                Please enter a valid email address.
+              </ion-note>
+          
+              <ion-item>
+                <ion-icon name="lock-closed" slot="start"></ion-icon>
+                <ion-input type="password" placeholder="Password" [(ngModel)]="password" formControlName="password" ></ion-input>
+              </ion-item>
+              <ion-note *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+                Password is required and must be at least 6 characters long.
+              </ion-note>
+              <ion-button expand="block"  [disabled]="!loginForm.valid" (click)="login()">Login</ion-button>
+              <ion-item>
+                <ion-label slot="end">
+                  <a (click)="forgotPassword()">Forgot Password?</a>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label >
+                  <a (click)="newUser()">New User? Sign Up</a>
+                </ion-label>
+              </ion-item>
+              <ion-toast
+              [isOpen]="isToastOpen"
+              message={{registrationInfo}}
+              [duration]="5000"
+              (didDismiss)="setOpen(false,registrationInfo)"
+            ></ion-toast>
+            </ion-card-content>
+          </ion-card>
+          </form>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+
+
+
+
+
+
+
+
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">login</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content> -->

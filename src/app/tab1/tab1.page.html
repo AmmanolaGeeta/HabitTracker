@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      My Habits
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-card *ngFor="let habit of habits; let h= index" style="height: 300px;">
+  <ion-card-header>
+    <ion-card-title>{{ habit.name }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <p> Status: 
+     <span [ngStyle]="{'color': habit.status === 'In Progress' ? 'blue' : habit.status === 'Completed' ? 'green' : 'red', 'font-weight': 'bold'}">{{ habit.status }} </span>    </p>
+     <!-- <div>habit.date |date </div> -->
+    <p> Task list: </p>
+    <div class="scroll" style="height: 100px; overflow-y: scroll;">
+      <!-- <ion-list>
+        <ion-item *ngFor="let task of habit.tasks; let i = index">
+          <ion-checkbox (ionChange)="updateTaskStatus(task, i)">{{ task.name }}</ion-checkbox>
+        </ion-item>
+      </ion-list> -->
+
+
+        <!-- <ul>
+          <li *ngFor="let task of habit.tasks ; let i = index">
+            <input type="checkbox" (change)="updateTaskStatus(task,i,h)">
+            {{ task.tsk }}
+          </li>
+        </ul> -->
+   
+        <ion-list>
+          <ion-item *ngFor="let task of habit.tasks ; let i = index" lines="none">
+            <ion-checkbox  (click)="updateTaskStatus(task,i,h)" > {{ task.tsk }}</ion-checkbox>
+         <!--  [ngStyle]="{'text-decoration':'line-through '}" -->
+          </ion-item>
+        </ion-list>
+
+
+    </div>
+  </ion-card-content>
+</ion-card>
+
+<!-- <ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 1</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <app-explore-container name="Tab 1 page"></app-explore-container>
+</ion-content> -->
+<!-- <ion-content>
+  <ion-card *ngFor="let habit of habits">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-text>{{ habit.name }}</ion-text>
+        
+      </ion-card-title>
+      <!-- <ion-card-subtitle>
+     
+      </ion-card-subtitle> 
+    </ion-card-header>
+    <ion-card-content>
+      <div class="date_status">
+        <ion-text>   {{ habit.startDate | date }}</ion-text>
+        <!-- <ion-text> Status: <span  [ngClass]="{'status-blue': habit.status === 'Progressing', 'status-green': habit.status === 'Achieved', 'status-red': habit.status === 'Failed'}">{{ habit.status }} </span>  </ion-text> 
+        <ion-text> Status: <span [ngStyle]="{'color': habit.status === 'Progressing' ? 'blue' : habit.status === 'Achieved' ? 'green' : 'red', 'font-weight': 'bold'}">{{ habit.status }} </span>  </ion-text>
+
+      </div>
+   
+      <p> Description: {{ habit.description }} </p>
+    </ion-card-content>
+  </ion-card>
+</ion-content> -->
