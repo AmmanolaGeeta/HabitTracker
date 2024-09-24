@@ -3,18 +3,24 @@
     <ion-title>
       My Habits
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/addHabit">Add Habit</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-card *ngFor="let habit of habits; let h= index" style="height: 300px;">
   <ion-card-header>
-    <ion-card-title>{{ habit.name }}</ion-card-title>
+    <ion-card-title>{{ habit.habitTitle }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <p> Status: 
-     <span [ngStyle]="{'color': habit.status === 'In Progress' ? 'blue' : habit.status === 'Completed' ? 'green' : 'red', 'font-weight': 'bold'}">{{ habit.status }} </span>    </p>
-     <!-- <div>habit.date |date </div> -->
+    <p> Status:
+      <span
+        [ngStyle]="{'color': habit.status === 'In Progress' ? 'blue' : habit.status === 'Completed' ? 'green' : 'red', 'font-weight': 'bold'}">{{
+        habit.status }} </span>
+    </p>
+    <!-- <div>habit.date |date </div> -->
     <p> Task list: </p>
     <div class="scroll" style="height: 100px; overflow-y: scroll;">
       <!-- <ion-list>
@@ -24,25 +30,84 @@
       </ion-list> -->
 
 
-        <!-- <ul>
+      <!-- <ul>
           <li *ngFor="let task of habit.tasks ; let i = index">
             <input type="checkbox" (change)="updateTaskStatus(task,i,h)">
             {{ task.tsk }}
           </li>
         </ul> -->
-   
-        <ion-list>
+
+      <!-- <ion-list>
           <ion-item *ngFor="let task of habit.tasks ; let i = index" lines="none">
             <ion-checkbox  (click)="updateTaskStatus(task,i,h)" > {{ task.tsk }}</ion-checkbox>
-         <!--  [ngStyle]="{'text-decoration':'line-through '}" -->
+         <!--  [ngStyle]="{'text-decoration':'line-through '}"
           </ion-item>
-        </ion-list>
+        </ion-list> -->
 
 
     </div>
   </ion-card-content>
 </ion-card>
 
+<ion-modal #modal [initialBreakpoint]="0.50" [breakpoints]="[0, 0.25, 0.5, 0.75]" trigger="open-modal"
+  (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-icon name="close" (click)="cancel()" color="danger" size="large"></ion-icon>
+          <!-- <ion-button (click)="cancel()">Cancel</ion-button> -->
+        </ion-buttons>
+        <ion-title>Add new note</ion-title>
+        <ion-buttons slot="end">
+          <ion-icon name="save" (click)="confirm()" color="success" size="large"></ion-icon>
+          <!-- <ion-button (click)="confirm()" [strong]="true">Save</ion-button> -->
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <form [formGroup]="habitForm" (ngSubmit)="submitHabit()">
+        <div class="ion-margin">
+          <ion-item class="ion-margin-bottom">
+            <ion-input label="Habit title" formControlName="habitTitle" labelPlacement="floating"
+              type="text"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="habitForm.get('habitTitle')?.touched && habitForm.get('habitTitle')?.invalid">
+            Please enter habit Title.
+          </ion-note>
+
+          <!-- <div *ngFor="let input of inputFields;let i = index">
+        <ion-item class="ion-margin-bottom">
+          <ion-input type="text" label="add task {{i+1}}" [(ngModel)]="input.value" labelPlacement="floating"></ion-input> <ion-icon name="close" (click)="removeInputfield(i)" color="danger"></ion-icon>
+        </ion-item>
+      </div> -->
+          <div formArrayName="tasks">
+            <ion-item *ngFor="let task of tasks.controls; let i = index" [formGroupName]="i">
+              <ion-label position="floating">Task {{ i + 1 }}</ion-label>
+              <ion-input formControlName="t_name"></ion-input>
+              <ion-button *ngIf="tasks.length > 1" color="danger" (click)="removeTask(i)">Remove Task</ion-button>
+            </ion-item>
+          </div>
+          <ion-note *ngIf="tasks.get('t_name')?.touched && tasks.get('t_name')?.invalid">
+            Please enter task.
+          </ion-note>
+          <ion-fab slot="fixed" vertical="middle" horizontal="center" (click)=" addTask()">
+            <!-- addInputField -->
+            <ion-fab-button id="open-modal">
+              <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+        </div>
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="center">
+  <ion-fab-button id="open-modal">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 <!-- <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
